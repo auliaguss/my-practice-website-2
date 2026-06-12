@@ -1,0 +1,5 @@
+{
+  "enabledPlugins": {
+    "saga-sites@saga-sites-skill": true
+  }
+}

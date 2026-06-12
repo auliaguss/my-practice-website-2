@@ -11,33 +11,26 @@ func baseHtml(title pageTitle: String, @NodeBuilder children: () -> NodeConverti
       meta(content: "width=device-width, initial-scale=1", name: "viewport")
       title { pageTitle }
       link(href: Saga.hashed("/static/style.css"), rel: "stylesheet")
+      meta(content: SiteMetadata.description, name: "description")
+      meta(content: pageTitle, customAttributes: ["property": "og:title"])
+      meta(content: SiteMetadata.description, customAttributes: ["property": "og:description"])
+      meta(content: "website", customAttributes: ["property": "og:type"])
+      meta(content: SiteMetadata.url.absoluteString, customAttributes: ["property": "og:url"])
+      meta(content: "\(SiteMetadata.url.absoluteString)/static/assets/app-icon.png", customAttributes: ["property": "og:image"])
+      meta(content: "summary_large_image", name: "twitter:card")
     }
     body {
       header {
         nav {
           a(class: "site-title", href: "/") { SiteMetadata.name }
-          div(class: "nav-links") {
-            a(href: "#features") { "Features" }
-            a(href: "#pricing") { "Pricing" }
-          }
+          a(class: "nav-cta", href: "https://testflight.apple.com/join/NRRmBQjP") { "Try it on the App Store" }
         }
       }
       main {
         children()
       }
       footer {
-        nav {
-          div(class: "nav-links") {
-            a(href: "/privacy-policy") { "Privacy Policy" }
-          }
-        }
-        p {
-          "Built with "
-          a(href: "https://github.com/loopwerk/Saga") { "Saga." }
-          "Template by "
-          a(href: "http://www.deverman.org") { "Brent Deverman." }
-        }
-
+        p { "© 2026 \(SiteMetadata.author). All rights reserved." }
       }
     }
   }
@@ -90,9 +83,6 @@ func renderTag<T>(context: PartitionedRenderingContext<T, ArticleMetadata>) -> N
 
 func renderPage(context: ItemRenderingContext<EmptyMetadata>) -> Node {
   baseHtml(title: context.item.title) {
-    div(class: "page") {
-      h1 { context.item.title }
-      Node.raw(context.item.body)
-    }
+    Node.raw(context.item.body)
   }
 }

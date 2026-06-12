@@ -4,9 +4,10 @@ import SagaParsleyMarkdownReader
 import SagaSwimRenderer
 
 enum SiteMetadata {
-  static let url = URL(string: "http://www.example.com")!
-  static let name = "Example App Landing Page"
-  static let author = "Brent Deverman"
+  static let url = URL(string: "https://auliaguss.github.io/my-practice-website-2")!
+  static let name = "hear+h"
+  static let author = "Aulia Agustina"
+  static let description = "hear+h handles the daily reminders — meals, medicine, rest — so you're not the one doing it anymore. And when it matters most, you're one tap away."
 }
 
 struct ArticleMetadata: Metadata {
@@ -19,7 +20,7 @@ try await Saga(input: "content", output: "docs")
     folder: "articles",
     metadata: ArticleMetadata.self,
     readers: [.parsleyMarkdownReader(
-        markdownOptions: [.hardBreaks, .smartQuotes, .markdownAttributes],
+        markdownOptions: [.hardBreaks, .smartQuotes, .markdownAttributes, .unsafe],
         syntaxExtensions: [.autolink, .strikethrough, .table, .tasklist]
 )],
     writers: [
@@ -31,9 +32,9 @@ try await Saga(input: "content", output: "docs")
   .register(
     metadata: EmptyMetadata.self,
     readers: [.parsleyMarkdownReader(
-    markdownOptions: [.hardBreaks, .smartQuotes, .markdownAttributes],
+        markdownOptions: [.hardBreaks, .smartQuotes, .markdownAttributes, .unsafe],
         syntaxExtensions: [.autolink, .strikethrough, .table, .tasklist]
-        )],
+    )],
     writers: [.itemWriter(swim(renderPage))]
   )
   .run()
